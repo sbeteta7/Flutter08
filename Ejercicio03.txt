@@ -1,0 +1,108 @@
+// main.dart
+import 'package:flutter/material.dart';
+import 'routes.dart';
+
+void main() {
+  runApp( MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: page1Route,
+      routes: {
+        page1Route: (context) => Page1(),
+        page2Route: (context) => Page2(),
+      },
+    );
+  }
+}
+
+class Page1 extends StatefulWidget {
+  @override
+  _Page1State createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+  TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Página 1'),
+      ),
+      body: Center(
+        child: Padding(
+          
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  labelText: 'Ingresar Texto',
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  String text = _textEditingController.text;
+                  Navigator.pushNamed(
+                    context,
+                    page2Route,
+                    arguments: text,
+                  );
+                },
+                child: Text('Ir a página 2'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+}
+
+class Page2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final String text = ModalRoute.of(context)!.settings.arguments as String;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Página 2'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Contenido de la página 1:',
+              style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              text,
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Regresar página 1'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
