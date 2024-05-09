@@ -1,0 +1,62 @@
+// main.dart
+import 'package:flutter/material.dart';
+const String page1Route = '/';
+const String page2Route = '/page2';
+void main() {
+  runApp( MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: page1Route,
+      routes: {
+        page1Route: (context) => Page1(),
+        page2Route: (context) => Page2(title: 'Página 2'),
+      },
+    );
+  }
+}
+
+class Page1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Página 1'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, page2Route);
+          },
+          child: Text('Ir a página 2'),
+        ),
+      ),
+    );
+  }
+}
+
+class Page2 extends StatelessWidget {
+  final String title;
+
+  const Page2({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Regresar a página 1'),
+        ),
+      ),
+    );
+  }
+}
